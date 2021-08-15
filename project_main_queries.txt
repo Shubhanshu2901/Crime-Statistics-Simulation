@@ -1,0 +1,35 @@
+1. What crime did 'Tuglaq' commit?
+ -> select ci.Crime from Criminal c,Crime_index ci where c.Name in ('Tuglaq') and c.code = ci.code;
+
+2. Find out the sentence of all the people who committed crime using 'Lead Pipe'
+ ->select p.Sentence from Criminal c,Punishment p where c.crime_tool in ('Lead Pipe') and c.Age <= p.max_age and c.Age >= p.min_age and c.code = p.code;
+
+3. In which city are people of age group 33-50 most likely to commit a crime?
+ ->select s.city from Crime_by_city s,Crime_by_age ca where s.code = (select ca.code where ca.min_age >= 18 and ca.max_age <= 32 order by ca.frequency desc limit 1) order by s.frequency desc limit 1;
+ 
+4. In which city are most crimes committed during 0800 to 1300 Hrs?
+ ->select s.city from Crime_by_city s, Timings t where t.code = s.code and t.MPT_lower = 0800 and t.MPT_upper = 1300 order by s.frequency desc limit 1;
+
+5. Which criminals did not commit crime during the time it was most expected? 
+ ->select c.Name from Criminal c, Timings t where c.code = t.code and (c.time < MPT_lower or c.time > MPT_upper);
+
+6. Which criminals committed crime outside their most likely age group? 
+ ->select distinct c.Name from Criminal c, Crime_by_age ca where ca.code = c.code and ca.code != (select ca1.code from Crime_by_age ca1 where c.age >= ca1.min_age and c.age <= ca1.max_age order by frequency desc limit 1);
+ 
+7. Which crime is committed most in cities where criminals used 'Katta/Pipegun'? 
+ ->select distinct s.city,ci.Crime from Crime_by_city s,Crime_index ci,Criminal c where s.code = ci.code and s.city = c.city and c. crime_tool in ('Katta/Pipegun') order by s.frequency desc limit 2;
+
+8. Find out the sentence of all the people who committed 'Scam' 
+ ->select c.Name,p.Sentence from Criminal c,Punishment p where c.code = (select ci.code from Crime_index ci where ci.Crime in ('Scam')) and c.code = p.code and c.Age >= p.min_age and c.Age <= p.max_age;
+
+9. What crime was committed by people who used 'Knife'? 
+ ->select c.Name, ci.Crime from crime_index ci, criminal c where c.crime_tool in ('Knife') and ci.code = c.code;
+
+10. What crime is committed by most people who are in the age group 51 to 60? 
+ ->select ci.crime from Crime_index ci,Crime_by_age ca where ci.code = ca.code and ca.code = (select ca1.code from Crime_by_age ca1 where ca1.min_age >= 51 and ca1.max_age <= 60 order by ca1.frequency desc limit 1) limit 1;
+
+11. What is the sentence of those who committed the least likely crime in Mumbai of the age group 33 to 50? 
+ ->select c.Name,p.Sentence from Criminal c,Punishment p where c.code = p.code and c.Age >= p.min_age and c.Age <= p.max_age and c.code = (select s.code from Crime_by_city s where s.city in ('Mumbai') order by frequency limit 1);
+
+12. What Crime tool was used by people who committed 'Murder' or 'Grevios Assault' in 'Kolkata'? 
+ ->select c.Name,c.crime_tool from Criminal c, crime_index ci where ci.Crime in ('Murder','Grevios Assault') and c.code = ci.code and c.city in ('Kolkata');

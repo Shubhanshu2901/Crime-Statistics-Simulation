@@ -1,0 +1,169 @@
+mysql> create table Crime_index (code int primary key,Crime varchar(50));
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> insert into Crime_index values(112,'Murder'),(121,'Attempted Murder'),(124,'Grevios Assault'),(137,'Robbery'),(139,'Assault on Women'),(141,'Scam'),(144,'Theft'),(148,'Kidnapping');
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select* from crime_index;
++------+------------------+
+| code | Crime            |
++------+------------------+
+|  112 | Murder           |
+|  121 | Attempted Murder |
+|  124 | Grevios Assault  |
+|  137 | Robbery          |
+|  139 | Assault on Women |
+|  141 | Scam             |
+|  144 | Theft            |
+|  148 | Kidnapping       |
++------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> create table Crime_by_city (city varchar(20),code int,frequency int,primary key(city,code),foreign key(code) references Crime_index(code));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into Crime_by_city values('Delhi',124,4),('Delhi',139,1),('Patna',144,5),('Patna',141,7),('Patna',124,3),('Mumbai',148,7),('Mumbai',112,4),('Mumbai',137,8),('Kolkata',121,2),('Kolkata',112,6),('Kolkata',139,5);
+Query OK, 11 rows affected (0.01 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+mysql> select* from crime_by_city;
++---------+------+-----------+
+| city    | code | frequency |
++---------+------+-----------+
+| Delhi   |  124 |         4 |
+| Delhi   |  139 |         1 |
+| Kolkata |  112 |         6 |
+| Kolkata |  121 |         2 |
+| Kolkata |  139 |         5 |
+| Mumbai  |  112 |         4 |
+| Mumbai  |  137 |         8 |
+| Mumbai  |  148 |         7 |
+| Patna   |  124 |         3 |
+| Patna   |  141 |         7 |
+| Patna   |  144 |         5 |
++---------+------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> create table Criminal(ID int primary key,Name Varchar(100),Age int,code int,city varchar(20),time int,crime_tool varchar(100),foreign key(code) references Crime_index(code),foreign key(city) references Crime_by_city(city));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into Criminal values(001,'Akshat',35,141,'Patna',1100,'None'),(002,'Deepak',26,139,'Kolkata',1900,'Lead Pipe'),(003,'Ashish',57,144,'Kolkata',0302,'Lock Pick'),(004,'Tuglaq',34,112,'Delhi',1300,'Revolveer.32'),(005,'Shashvat',21,137,'Mumbai',2100,'Katta/Pipegun'),(006,'Naman',41,124,'Patna',0900,'Brick'),(007,'Kirmender',50,121,'Delhi',1910,'Rifle'),(008,'Tanya',27,141,'Mumbai',1400,'None'),(009,'Kushan',29,148,'Patna',1800,'Ak-47'),(010,'Asif',19,139,'Kolkata',1600,'None'),(011,'Karthik',39,148,'Delhi',1500,'Katta/Pipegun'),(012,'Jaspreet',55,139,'Mumbai',2200,'Revolver.32'),(013,'Sarvagya',42,141,'Patna',1200,'None'),(014,'Shubhanshu',30,124,'Kolkata',1700,'Lead Pipe'),(015,'Prashant',22,137,'Delhi',2300,'Rifle'),(016,'Shubham',58,112,'Mumbai',0000,'Knife'),(017,'Iyer',40,144,'Patna',0500,'Hammer'),(018,'Aman',36,144,'Delhi',0100,'Lock Pick'),(019,'Sumit',26,112,'Mumbai',0800,'Katta/Pipegun'),(020,'Shawn',49,137,'Kolkata',1900,'Knife');
+Query OK, 20 rows affected (0.01 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+mysql> select* from criminal;
++----+------------+------+------+---------+------+---------------+
+| ID | Name       | Age  | code | city    | time | crime_tool    |
++----+------------+------+------+---------+------+---------------+
+|  1 | Akshat     |   35 |  141 | Patna   | 1100 | None          |
+|  2 | Deepak     |   26 |  139 | Kolkata | 1900 | Lead Pipe     |
+|  3 | Ashish     |   57 |  144 | Kolkata |  302 | Lock Pick     |
+|  4 | Tuglaq     |   34 |  112 | Delhi   | 1300 | Revolveer.32  |
+|  5 | Shashvat   |   21 |  137 | Mumbai  | 2100 | Katta/Pipegun |
+|  6 | Naman      |   41 |  124 | Patna   |  900 | Brick         |
+|  7 | Kirmender  |   50 |  121 | Delhi   | 1910 | Rifle         |
+|  8 | Tanya      |   27 |  141 | Mumbai  | 1400 | None          |
+|  9 | Kushan     |   29 |  148 | Patna   | 1800 | Ak-47         |
+| 10 | Asif       |   19 |  139 | Kolkata | 1600 | None          |
+| 11 | Karthik    |   39 |  148 | Delhi   | 1500 | Katta/Pipegun |
+| 12 | Jaspreet   |   55 |  139 | Mumbai  | 2200 | Revolver.32   |
+| 13 | Sarvagya   |   42 |  141 | Patna   | 1200 | None          |
+| 14 | Shubhanshu |   30 |  124 | Kolkata | 1700 | Lead Pipe     |
+| 15 | Prashant   |   22 |  137 | Delhi   | 2300 | Rifle         |
+| 16 | Shubham    |   58 |  112 | Mumbai  |    0 | Knife         |
+| 17 | Iyer       |   40 |  144 | Patna   |  500 | Hammer        |
+| 18 | Aman       |   36 |  144 | Delhi   |  100 | Lock Pick     |
+| 19 | Sumit      |   26 |  112 | Mumbai  |  800 | Katta/Pipegun |
+| 20 | Shawn      |   49 |  137 | Kolkata | 1900 | Knife         |
++----+------------+------+------+---------+------+---------------+
+20 rows in set (0.00 sec)
+
+mysql> create table Timings (code int primary key,MPT_lower int,MPT_upper int);
+Query OK, 0 rows affected (0.04 sec)
+mysql>  insert into Timings values(112,0000,1200),(121,1900,2200),(124,0800,1300),(137,2000,2300),(139,1700,2200),(141,0900,1200),(144,0000,0400),(148,1200,2000);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select* from timings;
++------+-----------+-----------+
+| code | MPT_lower | MPT_upper |
++------+-----------+-----------+
+|  112 |         0 |      1200 |
+|  121 |      1900 |      2200 |
+|  124 |       800 |      1300 |
+|  137 |      2000 |      2300 |
+|  139 |      1700 |      2200 |
+|  141 |       900 |      1200 |
+|  144 |         0 |       400 |
+|  148 |      1200 |      2000 |
++------+-----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> create table Crime_by_age (code int,min_age int,max_age int,frequency int,primary key(code,min_age,max_age),foreign key(code) references Crime_index(code));
+Query OK, 0 rows affected (0.04 sec)
+mysql> insert into Crime_by_age values(112,18,32,2),(112,33,50,4),(124,18,32,1),(124,33,50,2),(124,51,60,0),(137,18,32,5),(137,33,50,1),(137,51,60,1),(139,18,32,2),(139,32,50,4),(139,51,60,4),(141,18,32,1),(141,32,50,4),(141,51,60,2),(144,18,32,0),(144,33,50,7),(144,51,60,4),(148,18,32,2),(148,33,50,2),(148,51,60,1),(121,18,32,1),(121,33,50,4),(121,51,60,3);
+Query OK, 23 rows affected (0.01 sec)
+Records: 23  Duplicates: 0  Warnings: 0
+
+mysql> select * from crime_by_age;
++------+---------+---------+-----------+
+| code | min_age | max_age | frequency |
++------+---------+---------+-----------+
+|  112 |      18 |      32 |         2 |
+|  112 |      33 |      50 |         4 |
+|  121 |      18 |      32 |         1 |
+|  121 |      33 |      50 |         4 |
+|  121 |      51 |      60 |         3 |
+|  124 |      18 |      32 |         1 |
+|  124 |      33 |      50 |         2 |
+|  124 |      51 |      60 |         0 |
+|  137 |      18 |      32 |         5 |
+|  137 |      33 |      50 |         1 |
+|  137 |      51 |      60 |         1 |
+|  139 |      18 |      32 |         2 |
+|  139 |      32 |      50 |         4 |
+|  139 |      51 |      60 |         4 |
+|  141 |      18 |      32 |         1 |
+|  141 |      32 |      50 |         4 |
+|  141 |      51 |      60 |         2 |
+|  144 |      18 |      32 |         0 |
+|  144 |      33 |      50 |         7 |
+|  144 |      51 |      60 |         4 |
+|  148 |      18 |      32 |         2 |
+|  148 |      33 |      50 |         2 |
+|  148 |      51 |      60 |         1 |
++------+---------+---------+-----------+
+23 rows in set (0.00 sec)
+
+mysql> create table Punishment (code int,min_age int,max_age int,Sentence varchar(200),primary key(code,min_age,max_age),foreign key(code) references Crime_index(code));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into Punishment values(112,18,32,'12 years and/or 15 Lakh fine'),(112,33,50,'16 years and/or 20 Lakh fine'),(112,52,60,'10 years and/or 12 Lakh fine'),(121,18,32,'12 years and/or 15 Lakh fine'),(121,33,50,'16 years and/or 20 Lakh fine'),(121,51,60,'10 years and/or 12 Lakh fine'),(124,18,32,'6 months and/or 50K fine'),(124,33,50,'9 months and/or 60K fine'),(124,51,60,'9 months anad/or 60k fine'),(137,18,32,'5 years and/or 6 Lakh fine'),(137,33,50,'10 years and/or 12 Lakh fine'),(137,51,60,'8 years and/or 9 Lakh fine'),(139,18,32,'7 years and NFA'),(139,33,50,'12 years and NFA'),(139,51,60,'10 years and NFA'),(141,18,32,'1 year and/or 75K fine'),(141,33,50,'3 years and/or 2.25 Lakh fine'),(141,51,60,'6 months and/or 75K fine');
+Query OK, 18 rows affected (0.01 sec)
+Records: 18  Duplicates: 0  Warnings: 0
+
+mysql> select * from punishment;
++------+---------+---------+-------------------------------+
+| code | min_age | max_age | Sentence                      |
++------+---------+---------+-------------------------------+
+|  112 |      18 |      32 | 12 years and/or 15 Lakh fine  |
+|  112 |      33 |      50 | 16 years and/or 20 Lakh fine  |
+|  112 |      52 |      60 | 10 years and/or 12 Lakh fine  |
+|  121 |      18 |      32 | 12 years and/or 15 Lakh fine  |
+|  121 |      33 |      50 | 16 years and/or 20 Lakh fine  |
+|  121 |      51 |      60 | 10 years and/or 12 Lakh fine  |
+|  124 |      18 |      32 | 6 months and/or 50K fine      |
+|  124 |      33 |      50 | 9 months and/or 60K fine      |
+|  124 |      51 |      60 | 9 months anad/or 60k fine     |
+|  137 |      18 |      32 | 5 years and/or 6 Lakh fine    |
+|  137 |      33 |      50 | 10 years and/or 12 Lakh fine  |
+|  137 |      51 |      60 | 8 years and/or 9 Lakh fine    |
+|  139 |      18 |      32 | 7 years and NFA               |
+|  139 |      33 |      50 | 12 years and NFA              |
+|  139 |      51 |      60 | 10 years and NFA              |
+|  141 |      18 |      32 | 1 year and/or 75K fine        |
+|  141 |      33 |      50 | 3 years and/or 2.25 Lakh fine |
+|  141 |      51 |      60 | 6 months and/or 75K fine      |
++------+---------+---------+-------------------------------+
+18 rows in set (0.00 sec)
